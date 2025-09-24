@@ -1,0 +1,2309 @@
+<html lang="en"><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FastQash</title>
+
+    <meta name="description" content="Manage your FASTQASH dashboard. View your earnings, track referrals, access services, and manage your account.">
+    <meta name="author" content="FASTQASH Agencies">
+    <meta name="keywords" content="fastqash dashboard, my account, earnings, referrals, manage account, online earning">
+    
+    <meta property="og:site_name" content="FASTQASH: Your gateway to online earning opportunities. Manage your account dashboard.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Dashboard - FASTQASH">
+    <meta property="og:description" content="Manage your FASTQASH dashboard. View your earnings, track referrals, access services, and manage your account.">
+    
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Dashboard - FASTQASH">
+    <meta name="twitter:description" content="Manage your FASTQASH dashboard. View your earnings, track referrals, access services, and manage your account.">
+    
+    <link rel="icon" href="logo.png" type="image/png">
+    
+    <!-- External Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* ===== GLOBAL STYLES ===== */
+        :root {
+            --primary-color: #0f172a;
+            --secondary-color: #1e293b;
+            --accent-color: #38bdf8;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --light-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --sidebar-width: 200px;
+            --header-height: 55px;
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light-bg);
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        /* Mobile body padding */
+        @media (max-width: 768px) {
+            body {
+                padding-top: var(--header-height);
+            }
+        }
+        
+        /* ===== MOBILE HEADER ===== */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: #2563eb;
+            padding: 0 1rem;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1040; /* Lower than sidebar */
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            color: #fff;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background-color 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-brand-area {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-logo {
+            height: 30px;
+        }
+
+        .header-site-name {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* ===== HEADER USER AREA - COMPLETELY REWRITTEN ===== */
+        .header-user-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1050;
+        }
+
+        .country-flag {
+            font-size: 1.3rem;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+        }
+
+        /* Avatar Dropdown Container */
+        .avatar-dropdown {
+            position: relative;
+        }
+
+        /* Avatar Button - Completely Reset */
+        .avatar-btn {
+            background: none !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            cursor: pointer !important;
+            border-radius: 50% !important;
+            transition: all 0.2s ease !important;
+            position: relative !important;
+            z-index: 1051 !important;
+            display: block !important;
+            width: 42px !important;
+            height: 42px !important;
+        }
+
+        .avatar-btn:focus,
+        .avatar-btn:active {
+            outline: none !important;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3) !important;
+        }
+
+        .avatar-btn:hover {
+            transform: scale(1.05) !important;
+        }
+
+        .avatar-img {
+            width: 42px !important;
+            height: 42px !important;
+            border-radius: 50% !important;
+            object-fit: cover !important;
+            border: 2px solid rgba(255, 255, 255, 0.4) !important;
+            transition: border-color 0.2s ease !important;
+        }
+
+        .avatar-btn:hover .avatar-img {
+            border-color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        /* Dropdown Menu - Custom Styling */
+        .user-dropdown-menu {
+            position: absolute !important;
+            top: 100% !important;
+            right: 0 !important;
+            background: white !important;
+            border: none !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+            padding: 0.5rem 0 !important;
+            min-width: 200px !important;
+            z-index: 1055 !important;
+            margin-top: 0.5rem !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateY(-10px) !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .user-dropdown-menu.show {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+        }
+
+        .user-dropdown-menu::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 15px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            transform: rotate(45deg);
+            border-top: 1px solid #e5e7eb;
+            border-left: 1px solid #e5e7eb;
+        }
+
+        .dropdown-header-custom {
+            padding: 0.75rem 1rem !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+            margin-bottom: 0.25rem !important;
+        }
+
+        .dropdown-header-custom .user-name {
+            font-weight: 600 !important;
+            color: #1f2937 !important;
+            font-size: 0.95rem !important;
+        }
+
+        .dropdown-header-custom .user-email {
+            font-size: 0.8rem !important;
+            color: #6b7280 !important;
+            margin-top: 0.1rem !important;
+        }
+
+        .dropdown-item-custom {
+            display: flex !important;
+            align-items: center !important;
+            padding: 0.6rem 1rem !important;
+            color: #374151 !important;
+            text-decoration: none !important;
+            font-size: 0.9rem !important;
+            transition: all 0.15s ease !important;
+            border: none !important;
+            background: none !important;
+            width: 100% !important;
+            text-align: left !important;
+        }
+
+        .dropdown-item-custom:hover {
+            background-color: #f9fafb !important;
+            color: #1f2937 !important;
+        }
+
+        .dropdown-item-custom.danger:hover {
+            background-color: #fef2f2 !important;
+            color: #dc2626 !important;
+        }
+
+        .dropdown-item-custom i {
+            margin-right: 0.5rem !important;
+            width: 16px !important;
+            font-size: 0.9rem !important;
+        }
+
+        .dropdown-divider-custom {
+            height: 1px !important;
+            background-color: #f3f4f6 !important;
+            margin: 0.25rem 0 !important;
+            border: none !important;
+        }
+
+        /* Mobile Header Display */
+        @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+                margin-top: 0;
+            }
+        }
+        
+        /* ===== SIDEBAR STYLES ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 220px;
+            height: 100vh;
+            background: #16213e;
+            z-index: 1060; /* Higher than mobile header */
+            transition: transform 0.3s ease;
+            color: var(--primary-color);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+            box-shadow: 2px 0 12px rgba(22,33,62,0.08);
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            max-height: 100vh;
+        }
+        
+        .sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background: #38bdf8;
+            border-radius: 3px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .sidebar li {
+            margin: 0.2rem 0;
+        }
+        
+        .sidebar a, .sidebar button {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            border: none;
+            background: none;
+            width: 100%;
+            font-size: 1rem;
+            border-radius: 0.5rem;
+            transition: background 0.2s, color 0.2s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .sidebar a.active, .sidebar .nav-link.active,
+        .sidebar a:active, .sidebar .nav-link:active,
+        .sidebar a:focus, .sidebar .nav-link:focus {
+            background: #2563eb;
+            color: #fff !important;
+            box-shadow: 0 2px 5px rgba(37, 99, 235, 0.3);
+            outline: none;
+            border-radius: 8px;
+            transform: translateY(-1px);
+        }
+        
+        .sidebar a:hover, .sidebar .nav-link:hover {
+            background: rgba(37, 99, 235, 0.2);
+            color: #60a5fa;
+            box-shadow: none;
+            border-radius: 8px;
+        }
+        
+        .sidebar i {
+            margin-right: 0.5rem;
+            font-size: 0.95em;
+            width: 1em;
+        }
+        
+        @media (min-width: 769px) {
+            .main-content {
+                margin-left: 220px !important;
+            }
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0 !important;
+                padding: 1rem !important;
+                margin-top: 0 !important;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+        }
+        
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        .content-header {
+            margin-bottom: 2rem;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        /* ===== CARDS ===== */
+        .card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            border: none;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 1px 3px rgba(0,0,0,0.06);
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        /* ===== STATS CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+        
+        .stat-card.expenses { background: linear-gradient(135deg, #9333ea, #a855f7); }
+        .stat-card.earnings { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+        .stat-card.withdrawals { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .stat-card.bonus { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .stat-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        
+        /* ===== WELCOME BANNER ===== */
+        .welcome-banner {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(50px, -50px);
+        }
+        
+        .welcome-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+        
+        .welcome-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-app {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .btn-app:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+        
+        /* ===== TABLES ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .data-table th {
+            background: var(--light-bg);
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .data-table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .badge.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .badge.secondary {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-banner {
+                padding: 1.5rem;
+            }
+            
+            .welcome-title {
+                font-size: 1.5rem !important;
+            }
+            
+            .data-table {
+                font-size: 0.9rem;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 0.5rem !important;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+            
+            .welcome-banner {
+                padding: 1rem;
+            }
+        }
+        
+        /* ===== UTILITY CLASSES ===== */
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-muted); }
+        .mb-0 { margin-bottom: 0; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 1.5rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .d-flex { display: flex; }
+        .justify-content-between { justify-content: space-between; }
+        .align-items-center { align-items: center; }
+
+        /* ===== NEW STATUS CARDS ===== */
+        .status-card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .status-card .card-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .status-card .card-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0 0 0.25rem 0;
+            font-weight: 500;
+        }
+
+        .status-card .card-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .status-card .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .status-card .card-subtitle i {
+            margin-right: 0.4rem;
+            font-size: 0.8rem;
+        }
+        
+        .status-card .card-subtitle .fa-arrow-up { color: var(--success-color); }
+        .status-card .card-subtitle .fa-check-circle { color: var(--danger-color); }
+        .status-card .card-subtitle .fa-arrow-up.text-warning { color: var(--warning-color); }
+        .status-card .card-subtitle .fa-arrow-up.text-info { color: #38bdf8; }
+
+        .status-card .card-icon i {
+            font-size: 1.75rem;
+            color: #38bdf8;
+        }
+
+        /* ===== PROFILE & REFERRAL CARDS ===== */
+        .profile-card, .referral-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+        .card-header-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+        .card-header-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+        .referral-link-box {
+            background-color: #eef2ff;
+            border: 1px dashed #c7d2fe;
+            color: #4338ca;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            word-wrap: break-word;
+        }
+        .btn-copy {
+            background-color: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .btn-copy:hover {
+            background-color: #1d4ed8;
+        }
+        .share-icons {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+        .share-icons a {
+            color: #888;
+            transition: color 0.2s;
+        }
+        .share-icons a[title~="WhatsApp"] { color: #25D366; }
+        .share-icons a[title~="Twitter"] { color: #1DA1F2; }
+        .share-icons a[title~="Facebook"] { color: #1877F3; }
+        .share-icons a[title~="Email"] { color: #EA4335; }
+        .share-icons a:hover { opacity: 0.85; }
+        .accordion-button .bold-label { font-weight: bold; }
+        
+        /* Reduce accordion button arrow size to match sidebar */
+        .accordion-button::after {
+            background-size: 0.75rem;
+            width: 0.75rem;
+            height: 0.75rem;
+        }
+        .profile-details-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .profile-details-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.85rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .profile-details-list li:last-child {
+            border-bottom: none;
+        }
+        .profile-details-list .detail-label {
+            font-weight: 500;
+            color: #334155;
+        }
+        .profile-details-list .detail-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Force alignment for the welcome banner on mobile */
+        @media (max-width: 768px) {
+            .welcome-banner-force-align {
+                margin-top: 0 !important;
+                margin-bottom: 1.5rem !important;
+            }
+        }
+
+        /* Styles for the new dropdown */
+        .nav-link[data-bs-toggle="collapse"] .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        .nav-link[data-bs-toggle="collapse"][aria-expanded="true"] .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+        .nav-list-submenu {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+        .nav-link-sub {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            border-radius: 6px;
+        }
+        .nav-link-sub:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+        .nav-list-submenu-nested {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+        .nav-list-submenu-nested a {
+            display: block;
+            padding: 0.5rem 1rem;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 6px;
+        }
+        .nav-list-submenu-nested a:hover {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: #60a5fa;
+        }
+        /* Responsive Referral Link Section */
+        .referral-card .input-group {
+            flex-wrap: nowrap;
+        }
+        @media (max-width: 600px) {
+            .referral-card .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .referral-card .form-control {
+                width: 100%;
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+                min-width: 0;
+                overflow-x: auto;
+            }
+            .referral-card .btn {
+                width: 100%;
+                font-size: 1rem;
+            }
+            .referral-card .share-icons {
+                justify-content: flex-start;
+                gap: 1.2rem;
+                font-size: 1.5rem;
+            }
+        }
+        .referral-card .form-control {
+            font-size: 1.1rem;
+            min-width: 0;
+            overflow-x: auto;
+        }
+        .referral-card .input-group {
+            gap: 0.5rem;
+        }
+        .referral-card .btn {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+        .referral-card .share-icons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+            font-size: 1.7rem;
+        }
+
+    </style>
+<style>
+            .avatar-sm {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .empty-state {
+                padding: 2rem;
+            }
+        </style></head>
+<body>
+    <!-- Mobile Header -->
+    <header class="mobile-header">
+        <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="header-brand-area">
+            <img src="logo.png" alt="FastQash Logo" class="header-logo">
+            <span class="header-site-name">FASTQASH</span>
+        </div>
+
+        <div class="header-user-area">
+            <!-- Country Flag (separate from dropdown) -->
+            <span class="country-flag" title="Kenya">
+                BW            </span>
+            
+            <!-- Avatar Dropdown -->
+            <div class="avatar-dropdown">
+                <button class="avatar-btn" type="button" id="avatarDropdownBtn" aria-label="User Menu">
+                    <img src="avatar.jpg" class="avatar-img" alt="User Avatar">
+                </button>
+                
+                <!-- Custom Dropdown Menu -->
+                <div class="user-dropdown-menu" id="userDropdownMenu">
+                    <div class="dropdown-header-custom">
+                        <div class="user-name">Tumelo</div>
+                        <div class="user-email">Atumelo56@gmail.com</div>
+                    </div>
+                    
+                    <a href="profile.php" class="dropdown-item-custom">
+                        <i class="fas fa-user-circle"></i>
+                        Profile
+                    </a>
+                    
+                    <div class="dropdown-divider-custom"></div>
+                    
+                    <a href="logout.php" class="dropdown-item-custom danger">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Place this in your PHP file where you want the sidebar to appear -->
+<!-- Font Awesome CDN for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<!-- REMOVED Bootstrap CSS from here - using the one from dashboard.php -->
+
+<style>
+.sidebar::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
+.sidebar {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: transparent !important;
+}
+.sidebar {
+    background: #0f172a;
+    color: #fff;
+    width: 240px;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2000;
+    overflow-y: auto;
+    padding-bottom: 2rem;
+}
+.sidebar .brand {
+    font-size: 1.9rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 1.5rem 1.5rem;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+}
+.sidebar .section-title {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 1.5rem 0 0.5rem 1.5rem;
+    display: flex;
+    align-items: center;
+}
+.sidebar .section-title .section-icon {
+    margin-right: 0.5rem;
+    font-size: 1rem;
+    width: 1.2em;
+    text-align: center;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar li {
+    margin: 0.1rem 0.5rem;
+}
+.sidebar a, .sidebar button {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    color: #e2e8f0;
+    text-decoration: none;
+    border: none;
+    background: none;
+    width: 100%;
+    font-size: 0.85rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+.sidebar a:hover, .sidebar button:hover {
+    background: #1e293b;
+    color: #38bdf8;
+}
+.sidebar a.active {
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: bold;
+}
+.sidebar i.fa-fw {
+    margin-right: 1rem;
+    font-size: 1.2em;
+    width: 1.5em;
+    text-align: center;
+}
+
+/* Dropdown specific styles - Fixed colors */
+.sidebar .nav-list-submenu-nested {
+    list-style: none;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    background-color: rgba(0,0,0,0.15);
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+.sidebar .nav-list-submenu-nested.show {
+    display: block;
+}
+.sidebar .nav-list-submenu-nested a {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+    color: #e2e8f0; /* Same as main menu items */
+    display: flex;
+    align-items: center;
+}
+.sidebar .nav-list-submenu-nested a:hover {
+    color: #38bdf8; /* Same hover color as main items */
+    background-color: #1e293b; /* Same hover background */
+}
+.sidebar .nav-list-submenu-nested a.active {
+    background: #38bdf8;
+    color: #0f172a;
+    font-weight: bold;
+}
+
+/* Deeper nesting adjustments */
+.sidebar .nav-list-submenu-nested .nav-list-submenu-nested {
+    margin-left: 1rem;
+    background: rgba(0,0,0,0.25);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+/* Enhanced nested dropdown styles */
+.sidebar .nav-list-submenu-nested .nav-list-submenu-nested {
+    margin-left: 0.5rem;
+    background: rgba(0,0,0,0.25);
+    padding: 0.3rem 0;
+    border-left: 2px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Ensure proper spacing for deeper nested items */
+.sidebar .nav-list-submenu-nested .nav-list-submenu-nested a {
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
+    font-size: 0.85rem;
+}
+
+/* Better visual hierarchy for nested levels */
+.sidebar .nav-list-submenu-nested > li > a {
+    border-left: 3px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.sidebar .nav-list-submenu-nested > li > a:hover {
+    border-left-color: #38bdf8;
+}
+
+/* WhatsApp group links styling */
+.sidebar .whatsapp-group-link {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1.5rem;
+    font-size: 0.85rem;
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.sidebar .whatsapp-group-link:hover {
+    color: #25D366;
+    background-color: #1e293b;
+    border-left-color: #25D366;
+}
+
+.sidebar .whatsapp-group-link i {
+    margin-right: 8px;
+    color: #25D366;
+    font-size: 1em;
+}
+
+.sidebar .nav-link.dropdown-toggle {
+    position: relative;
+    padding-right: 3.2rem; /* Increased to ensure arrow is never covered by text */
+}
+.sidebar .dropdown-arrow {
+    position: absolute;
+    right: 1rem; /* Slightly closer to the edge for better alignment */
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 0;
+    color: #cbd5e1;
+    font-size: 0.5rem;
+    pointer-events: none;
+    transition: transform 0.3s;
+}
+.sidebar .nav-link[aria-expanded="true"] .dropdown-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* Hide Bootstrap or default dropdown arrow */
+.nav-link.dropdown-toggle::after,
+a.dropdown-toggle::after {
+    content: none !important;
+    display: none !important;
+}
+</style>
+
+<!-- Enhanced Sidebar -->
+<nav class="sidebar" id="sidebar">
+    
+    <!-- Navigation Sections -->
+    <div class="nav-section">
+        <div class="section-title">
+            <i class="fas fa-home section-icon"></i>
+            <span>Main Menu</span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="/dashboard.php" class="nav-link active">
+                <i class="fas fa-tachometer-alt fa-fw"></i>
+                <span class="nav-text">Dashboard</span>
+            </a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="section-title">
+            <i class="fas fa-wallet section-icon"></i>
+            <span>Financial</span>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <a class="nav-link dropdown-toggle" href="#voucherSubmenu" role="button" aria-expanded="false" aria-controls="voucherSubmenu">
+                    <i class="fas fa-ticket-alt fa-fw"></i>
+                    <span class="nav-text">Voucher</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="voucherSubmenu">
+                    <li><a href="/buy_voucher.php">Buy Voucher</a></li>
+                    <li><a href="/voucher_history.php">History</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="nav-link dropdown-toggle" href="#rechargeSubmenu" role="button" aria-expanded="false" aria-controls="rechargeSubmenu">
+                    <i class="fas fa-wallet fa-fw"></i>
+                    <span class="nav-text">Account Recharge</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="rechargeSubmenu">
+                    <li><a href="/deposit_router.php">Deposit Fund</a></li>
+                    <li><a href="/payment_transactions.php">Payment Transactions</a></li>
+                    <li><a href="/deduction_history.php">Deduction History</a></li>
+                    <li><a href="/reversals.php">Reversals</a></li>
+                </ul>
+            </li>
+        
+            <li>
+                <a class="nav-link dropdown-toggle" href="#withdrawalSubmenu" role="button" aria-expanded="false" aria-controls="withdrawalSubmenu">
+                    <i class="fas fa-money-bill-wave fa-fw"></i>
+                    <span class="nav-text">Withdraw</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="withdrawalSubmenu">
+                    <li><a href="/withdrawal_balance.php">Withdraw Balance</a></li>
+                    <li><a href="/withdraw_youtube.php">Withdraw YouTube</a></li>
+                    <li><a href="/withdraw_tiktok.php">Withdraw TikTok</a></li>
+                    <li><a href="/withdraw_trivia.php">Withdraw Trivia</a></li>
+                    <li><a href="/withdraw_articles.php">Withdraw Articles</a></li>
+                    <li><a href="/withdraw_ads.php">Withdraw Ads</a></li>
+                    <li><a href="/withdrawal_history.html">Withdrawal History</a></li>
+                </ul>
+            </li>
+            <li><a href="/welcome_bonus.php" class="nav-link">
+                <i class="fas fa-gift fa-fw"></i>
+                <span class="nav-text">Redeem Bonus</span>
+            </a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="section-title">
+            <i class="fas fa-users section-icon"></i>
+            <span>Community</span>
+        </div>
+        <ul class="nav-list">
+            <li style="list-style: none; background: transparent;">
+                <a href="#" onclick="simpleWhatsAppShare(event)" style="text-decoration: none; color: #ffffff; background: transparent; display: flex; align-items: center; padding: 8px 12px;" data-username="Admin1" class="active">
+                    <i class="fas fa-share-alt fa-fw" style="margin-right: 8px;"></i> 
+                    <span>Share WhatsApp</span>
+                </a>
+            </li>
+            <li>
+                <a class="nav-link dropdown-toggle" href="#whatsappGroupsSubmenu" role="button" aria-expanded="false" aria-controls="whatsappGroupsSubmenu">
+                    <i class="fab fa-whatsapp fa-fw"></i>
+                    <span class="nav-text">Join Group</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="whatsappGroupsSubmenu">
+                    <li><a href="https://chat.whatsapp.com/DAv6oHeZbw7BJCVvMEjyLk?mode=ems_copy_t" target="_blank" class="whatsapp-group-link"><i class="fab fa-whatsapp" style="margin-right: 8px; color: #25D366;"></i>Group 1</a></li>                </ul>
+            </li>
+            <li>
+                <a class="nav-link dropdown-toggle" href="#teamSubmenu" role="button" aria-expanded="false" aria-controls="teamSubmenu">
+                    <i class="fas fa-users fa-fw"></i>
+                    <span class="nav-text">Team</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="teamSubmenu">
+                    <li>
+                        <a class="dropdown-toggle" href="#level1Submenu" role="button" aria-expanded="false" aria-controls="level1Submenu">
+                            Level 1
+                        </a>
+                        <ul class="nav-list-submenu-nested" id="level1Submenu">
+                            <li><a href="/team.php?level=1&amp;status=active">Active</a></li>
+                            <li><a href="/team.php?level=1&amp;status=inactive">Inactive</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="#level2Submenu" role="button" aria-expanded="false" aria-controls="level2Submenu">
+                            Level 2
+                        </a>
+                        <ul class="nav-list-submenu-nested" id="level2Submenu">
+                            <li><a href="/team.php?level=2&amp;status=active">Active</a></li>
+                            <li><a href="/team.php?level=2&amp;status=inactive">Inactive</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="dropdown-toggle" href="#level3Submenu" role="button" aria-expanded="false" aria-controls="level3Submenu">
+                            Level 3
+                        </a>
+                        <ul class="nav-list-submenu-nested" id="level3Submenu">
+                            <li><a href="/team.php?level=3&amp;status=active">Active</a></li>
+                            <li><a href="/team.php?level=3&amp;status=inactive">Inactive</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="/chat_upline.php" class="nav-link" id="chatUplineLink">
+                    <i class="fas fa-comments fa-fw"></i>
+                    <span class="nav-text">Chat Upline</span>
+                    <span class="unread-badge" id="chatUnreadBadge" style="display: none; background: #dc3545; color: #fff; border-radius: 12px; padding: 2px 8px; font-size: 0.8em; margin-left: 8px; vertical-align: middle;"></span>
+                </a>
+            </li>
+            <li>
+                <a href="/reward_downline.php" class="nav-link">
+                    <i class="fas fa-gift fa-fw"></i>
+                    <span class="nav-text">Reward Downline</span>
+                </a>
+            </li>
+         </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="section-title">
+            <i class="fas fa-gamepad section-icon"></i>
+            <span>Products</span>
+        </div>
+        <ul class="nav-list">
+            <li>
+                <a class="nav-link dropdown-toggle" href="#spinGamesSubmenu" role="button" aria-expanded="false" aria-controls="spinGamesSubmenu">
+                    <i class="fas fa-dice fa-fw"></i>
+                    <span class="nav-text">Spin Games</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="spinGamesSubmenu">
+                    <li><a href="/bet-spin.php">Bet Spin</a></li>
+                    <li><a href="/free-spin.php">Free Spin</a></li>
+                </ul>
+            </li>
+             <li><a href="https://1wfwlx.life/v3/reg-form-aviator?p=du7i" class="nav-link">
+                <i class="fas fa-paper-plane fa-fw"></i>
+                <span class="nav-text">Aviator Predictor</span>
+            </a></li>
+            <li><a href="https://1wfwlx.life/v3/reg-form-aviator?p=du7i" class="nav-link">
+                <i class="fas fa-share-alt fa-fw"></i>
+                <span class="nav-text">Aviator REVSHARE</span>
+            </a></li>
+        </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="section-title">
+            <i class="fas fa-rocket section-icon"></i>
+            <span>Digital Services</span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="/ads-earnings.php" class="nav-link">
+                <i class="fas fa-ad fa-fw"></i>
+                <span class="nav-text">Ads Earnings</span>
+            </a></li>
+            <li>
+                <a class="nav-link dropdown-toggle" href="#tiktokSubmenu" role="button" aria-expanded="false" aria-controls="tiktokSubmenu">
+                    <i class="fab fa-tiktok fa-fw"></i>
+                    <span class="nav-text">TikTok Earn</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="tiktokSubmenu">
+                    <li><a href="/tiktok_earnings.php">Earnings</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="nav-link dropdown-toggle" href="#youtubeSubmenu" role="button" aria-expanded="false" aria-controls="youtubeSubmenu">
+                    <i class="fab fa-youtube fa-fw"></i>
+                    <span class="nav-text">YouTube Earn</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="youtubeSubmenu">
+                    <li><a href="/youtube_earnings.php">Watch</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="nav-link dropdown-toggle" href="#triviaSubmenu" role="button" aria-expanded="false" aria-controls="triviaSubmenu">
+                    <i class="fas fa-brain fa-fw"></i>
+                    <span class="nav-text">Trivia Questions</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="triviaSubmenu">
+                    <li><a href="/trivia_earnings.php">Trivia</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="nav-link dropdown-toggle" href="#articlesSubmenu" role="button" aria-expanded="false" aria-controls="articlesSubmenu">
+                    <i class="fas fa-newspaper fa-fw"></i>
+                    <span class="nav-text">Articles</span>
+                    <i class="fas fa-chevron-down dropdown-arrow"></i>
+                </a>
+                <ul class="nav-list-submenu-nested" id="articlesSubmenu">
+                    <li><a href="/post_article.php">Post Articles</a></li>
+                </ul>
+            </li>
+            <li><a href="/forex.php" class="nav-link">
+                <i class="fas fa-chart-line fa-fw"></i>
+                <span class="nav-text">Forex Lessons</span>
+            </a></li>
+            <li><a href="/ebooks.php" class="nav-link">
+                <i class="fas fa-book fa-fw"></i>
+                <span class="nav-text">Business Ebooks</span>
+            </a></li>
+            <li>
+                <a href="/tournaments.php" class="nav-link">
+                    <i class="fas fa-trophy fa-fw"></i>
+                    <span class="nav-text">Tournaments</span>
+                </a>
+            </li>
+         </ul>
+    </div>
+
+    <div class="nav-section">
+        <div class="section-title">
+            <i class="fas fa-user-cog section-icon"></i>
+            <span>Account</span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="/user_profiles.php" class="nav-link">
+                <i class="fas fa-user fa-fw"></i>
+                <span class="nav-text">Profile</span>
+            </a></li>
+            <li><a href="/logout.php" class="nav-link">
+                <i class="fas fa-sign-out-alt fa-fw"></i>
+                <span class="nav-text">Logout</span>
+            </a></li>
+        </ul>
+    </div>
+</nav>
+
+<style>
+/* Remove any blue styling and dots from WhatsApp nav link */
+.nav-link {
+    text-decoration: none !important;
+    list-style: none !important;
+}
+
+.nav-link::before {
+    display: none !important;
+}
+
+li {
+    list-style: none !important;
+    list-style-type: none !important;
+}
+
+li::before {
+    display: none !important;
+}
+
+/* Ensure the link uses default site colors */
+.nav-link:link,
+.nav-link:visited,
+.nav-link:hover,
+.nav-link:active {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+</style>
+
+<script>
+function simpleWhatsAppShare(event) {
+    event.preventDefault();
+    
+    let domain = window.location.hostname;
+    // Get username from the clicked element's data attribute
+    let username = event.target.closest('a').getAttribute('data-username');
+    
+    // Fallback if username is not available
+    if (!username || username === '') {
+        alert('Please log in to share your referral link');
+        return;
+    }
+    
+    let referralLink = `https://${domain}/register.php?ref=${username}`;
+    
+    let message = `🚀 Join me on this amazing earning platform!
+💰 Multiple ways to earn:
+✅ Watch YouTube videos
+✅ Complete trivia challenges  
+✅ Read articles
+✅ Spin games & more!
+Use my referral link to get started:
+${referralLink}
+💵 Start earning today - With KSh 500 ONLY!`;
+    
+    let whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+}
+
+// Custom dropdown functionality without Bootstrap dependency
+document.addEventListener("DOMContentLoaded", function() {
+    // Get all dropdown toggles
+    const dropdownToggles = document.querySelectorAll('.sidebar .dropdown-toggle');
+    
+    dropdownToggles.forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href').substring(1);
+            const targetMenu = document.getElementById(targetId);
+            const isCurrentlyOpen = targetMenu.classList.contains('show');
+            const isNestedLevel = targetId.includes('level') && targetId.includes('Submenu');
+            
+            if (isCurrentlyOpen) {
+                // Close the current dropdown
+                closeDropdown(targetMenu, this);
+            } else {
+                // Close other dropdowns at the same level
+                if (isNestedLevel) {
+                    // Close other level dropdowns
+                    const levelMenus = document.querySelectorAll('[id*="level"][id*="Submenu"]');
+                    levelMenus.forEach(menu => {
+                        if (menu.id !== targetId && menu.classList.contains('show')) {
+                            const levelToggle = document.querySelector(`[href="#${menu.id}"]`);
+                            closeDropdown(menu, levelToggle);
+                        }
+                    });
+                } else {
+                    // Close other main dropdowns in the same section
+                    const currentSection = this.closest('.nav-section');
+                    if (currentSection) {
+                        const sectionDropdowns = currentSection.querySelectorAll('.dropdown-toggle');
+                        sectionDropdowns.forEach(dropdown => {
+                            const dropdownTargetId = dropdown.getAttribute('href').substring(1);
+                            if (dropdownTargetId !== targetId) {
+                                const dropdownMenu = document.getElementById(dropdownTargetId);
+                                if (dropdownMenu && dropdownMenu.classList.contains('show')) {
+                                    closeDropdown(dropdownMenu, dropdown);
+                                }
+                            }
+                        });
+                    }
+                }
+                
+                // Open the current dropdown
+                openDropdown(targetMenu, this);
+            }
+        });
+    });
+    
+    function openDropdown(menu, toggle) {
+        menu.classList.add('show');
+        toggle.setAttribute('aria-expanded', 'true');
+    }
+    
+    function closeDropdown(menu, toggle) {
+        menu.classList.remove('show');
+        toggle.setAttribute('aria-expanded', 'false');
+        
+        // Also close any nested dropdowns
+        const nestedMenus = menu.querySelectorAll('.nav-list-submenu-nested.show');
+        nestedMenus.forEach(nestedMenu => {
+            const nestedToggle = document.querySelector(`[href="#${nestedMenu.id}"]`);
+            if (nestedToggle) {
+                closeDropdown(nestedMenu, nestedToggle);
+            }
+        });
+    }
+    
+    // Set active states for current page
+    const currentPage = window.location.pathname;
+    const allLinks = document.querySelectorAll('.sidebar a:not(.dropdown-toggle)');
+    
+    allLinks.forEach(link => {
+        if (link.href) {
+            const linkPath = new URL(link.href, window.location.origin).pathname;
+            if (linkPath === currentPage) {
+                link.classList.add('active');
+            }
+        }
+    });
+    
+    // Fetch unread message count for Chat Upline
+    fetchUnreadMessageCount();
+    
+    // Update unread count every 30 seconds
+    setInterval(fetchUnreadMessageCount, 30000);
+});
+
+// Function to fetch unread message count
+function fetchUnreadMessageCount() {
+    fetch('/chat_upline.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: 'action=list_pending_chats'
+    })
+    .then(response => response.json())
+    .then(data => {
+        const unreadBadge = document.getElementById('chatUnreadBadge');
+        if (data.status === 'success' && data.unread_count > 0) {
+            unreadBadge.textContent = data.unread_count;
+            unreadBadge.style.display = 'inline';
+        } else {
+            unreadBadge.style.display = 'none';
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching unread count:', error);
+    });
+}
+</script>
+
+
+
+                <!-- Main Content -->
+                    <main class="main-content">
+                                
+                        <!-- Welcome Banner -->
+                        <div class="p-3 rounded welcome-banner-force-align" style="background: #2563eb; color: #fff;">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h1 class="mb-0" style="font-size: 1.2rem; font-weight: bold;">Welcome, Tumelo <i class="fas fa-check-circle verification-badge"></i></h1>
+                            </div>
+                            <p style="font-size: 0.8rem;">
+                                Elevate your online presence with FastQash's 10+ powerful digital tools! From ad boosting and YouTube promotions to interactive trivia, we've got the perfect tools for your success! 🚀💻📊⭐️🔥
+                                            </p>
+                            <div class="row g-3 mt-2">
+                                <div class="col-6">
+                                    <div class="rounded p-3 text-white" style="background: #9333ea;">
+                                        <div style="font-size: 1rem; font-weight: 500;">Expenses</div>
+                                        <div style="font-size: 1.2rem; font-weight: bold;">
+                                            BWP 95                  </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 d-flex align-items-center justify-content-center">
+                                    <div style="border-radius: 8px; padding: 10px; width: 100%; height: 120px;">
+                                        <canvas id="welcomeChart" style="max-height: 110px; width: 15px; display: block; box-sizing: border-box; height: 100px;" width="15" height="100"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-3 rounded p-3" style="background: #06b6d4; color: #fff;">
+                                <div style="font-size: 1rem; font-weight: 500;">Total Earnings</div>
+                                <div style="font-size: 1.2rem; font-weight: bold;">
+                                    BWP 1,954                </div>
+                                <div style="font-size: 0.7rem; opacity: 0.7;">Overview of TOTAL earnings</div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Cards -->
+                        <div class="mb-4">
+                            <div class="rounded p-3 mb-3" style="background: #22c55e; color: #fff;">
+                                <div style="font-size: 1rem; font-weight: 500;">Balance</div>
+                                <div style="font-size: 1.2rem; font-weight: bold;">
+                                    BWP 1,036             </div>
+                                <div style="font-size: 0.7rem; opacity: 0.7;">Affiliate Balance</div>
+                            </div>
+                            <div class="rounded p-3 mb-3" style="background: #f97316; color: #fff;">
+                                <div style="font-size: 1rem; font-weight: 500;">Withdrawn</div>
+                                <div style="font-size: 1.2rem; font-weight: bold;">
+                                    BWP 895               </div>
+                                <div style="font-size: 0.7rem; opacity: 0.7;">Total Withdrawan</div>
+                            </div>
+                        </div>
+                                
+                        <!-- Affiliate Earnings Card -->
+                        <div class="rounded p-3 mb-3" style="background: #3b82f6; color: #fff;">
+                            <div style="font-size: 1rem; font-weight: 500;">Affiliate Earnings</div>
+                            <div style="font-size: 1.2rem; font-weight: bold;">
+                                BWP 1,200            </div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Total Referrals</div>
+                        </div>
+                                
+                        <!-- Agent Bonus Card -->
+                        <div class="rounded p-3 mb-3" style="background: #22c55e; color: #fff;">
+                            <div style="font-size: 1rem; font-weight: 500;">Agent Bonus</div>
+                            <div style="font-size: 1.2rem; font-weight: bold;">
+                                BWP 250            </div>
+                            <div style="font-size: 0.7rem; opacity: 0.7;">Total Agent Awards</div>
+                        </div>
+
+                        <!-- New Status Cards Section -->
+                        <div class="status-card-grid">
+                            <!-- Ads Earnings -->
+                            <div class="status-card">
+                                <div class="card-content">
+                                    <span class="card-title">Ads Earnings</span>
+                                    <span class="card-value">BWP 115</span>
+                                    <span class="card-subtitle"><i class="fas fa-arrow-up"></i> Ads Sales</span>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="fas fa-box-open"></i>
+                                </div>
+                            </div>
+                            <!-- TikTok Earnings -->
+                            <div class="status-card">
+                                <div class="card-content">
+                                    <span class="card-title">TikTok Earnings</span>
+                                    <span class="card-value">BWP 255</span>
+                                    <span class="card-subtitle"><i class="fas fa-arrow-up text-warning"></i> Tiktok views</span>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="fas fa-film"></i>
+                                </div>
+                            </div>
+                            <!-- Youtube Earnings -->
+                            <div class="status-card">
+                                <div class="card-content">
+                                    <span class="card-title">Youtube Earnings</span>
+                                    <span class="card-value">BWP 130</span>
+                                    <span class="card-subtitle"><i class="fas fa-check-circle"></i> Youtube Views</span>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="fab fa-youtube"></i>
+                                </div>
+                            </div>
+                            <!-- Trivia Earnings -->
+                            <div class="status-card">
+                                <div class="card-content">
+                                    <span class="card-title">Trivia Earnings</span>
+                                    <span class="card-value">BWP 103</span>
+                                    <span class="card-subtitle"><i class="fas fa-list-ul"></i> Trivia</span>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="fas fa-list-ul"></i>
+                                </div>
+                            </div>
+                            <!-- Articles Earnings -->
+                            <div class="status-card">
+                                <div class="card-content">
+                                    <span class="card-title">Articles Earnings</span>
+                                    <span class="card-value">BWP 97</span>
+                                    <span class="card-subtitle"><i class="fas fa-arrow-up text-info"></i> Articles winnings</span>
+                                </div>
+                                <div class="card-icon">
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Referral Link Card -->
+                        <div class="referral-card">
+                            <div class="accordion" id="referralAccordion">
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="inviteLinkHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-target="#inviteLinkCollapse" aria-expanded="false" aria-controls="inviteLinkCollapse">
+                                            <span class="bold-label">Invite link</span>
+                                        </button>
+                                    </h3>
+                                    <div id="inviteLinkCollapse" class="accordion-collapse collapse" aria-labelledby="inviteLinkHeading">
+                                        <div class="accordion-body">
+                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" value="https://fastqash.com/register.php?ref=Admin1" readonly="" id="referralLinkInput_339">
+                                                <button class="btn btn-primary" type="button" onclick="copyReferralLink('referralLinkInput_339')">Copy link</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h3 class="accordion-header" id="altLinkHeading">
+                                        <button class="accordion-button collapsed" type="button" data-bs-target="#altLinkCollapse" aria-expanded="false" aria-controls="altLinkCollapse">
+                                            <span class="bold-label">Alternative link</span>
+                                        </button>
+                                    </h3>
+                                    <div id="altLinkCollapse" class="accordion-collapse collapse" aria-labelledby="altLinkHeading">
+                                        <div class="accordion-body">
+                                                                        <div class="input-group mb-3">
+                                                <input type="text" class="form-control" value="https://fastqash.com/c/2e33A9B0" readonly="" id="altReferralLinkInput_339">
+                                                <button class="btn btn-primary" type="button" onclick="copyReferralLink('altReferralLinkInput_339')">Copy link</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-header-subtitle" style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Or Click on the Icons to Share</div>
+                            <div class="share-icons">
+                                <a href="https://wa.me/?text=https%3A%2F%2Ffastqash.com%2Fregister.php%3Fref%3DAdmin1" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                                <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ffastqash.com%2Fregister.php%3Fref%3DAdmin1" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffastqash.com%2Fregister.php%3Fref%3DAdmin1" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                                <a href="mailto:?subject=Join Me!&amp;body=https%3A%2F%2Ffastqash.com%2Fregister.php%3Fref%3DAdmin1" title="Email"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                        <script>
+                        // Custom accordion functionality - Run after Bootstrap loads
+                        window.addEventListener('load', function() {
+                            console.log('Setting up custom accordion...');
+                            const accordionButtons = document.querySelectorAll('#referralAccordion .accordion-button');
+                            console.log('Found accordion buttons:', accordionButtons.length);
+                            
+                            accordionButtons.forEach(button => {
+                                // Remove any existing Bootstrap event listeners
+                                button.removeEventListener('click', button._customAccordionHandler);
+                                
+                                // Create new handler
+                                button._customAccordionHandler = function(e) {
+                                    console.log('Accordion button clicked!');
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    
+                                    const targetId = this.getAttribute('data-bs-target');
+                                    const targetCollapse = document.querySelector(targetId);
+                                    const isCurrentlyOpen = targetCollapse.classList.contains('show');
+                                    
+                                    console.log('Target:', targetId, 'Currently open:', isCurrentlyOpen);
+                                    
+                                    // Close all accordion items first
+                                    const allCollapses = document.querySelectorAll('#referralAccordion .accordion-collapse');
+                                    const allButtons = document.querySelectorAll('#referralAccordion .accordion-button');
+                                    
+                                    allCollapses.forEach(collapse => {
+                                        collapse.classList.remove('show');
+                                        collapse.classList.add('collapse');
+                                    });
+                                    
+                                    allButtons.forEach(btn => {
+                                        btn.classList.add('collapsed');
+                                        btn.setAttribute('aria-expanded', 'false');
+                                    });
+                                    
+                                    // If the clicked item was closed, open it
+                                    if (!isCurrentlyOpen) {
+                                        targetCollapse.classList.remove('collapse');
+                                        targetCollapse.classList.add('show');
+                                        this.classList.remove('collapsed');
+                                        this.setAttribute('aria-expanded', 'true');
+                                        console.log('Opened accordion item');
+                                    } else {
+                                        console.log('Closed accordion item');
+                                    }
+                                };
+                                
+                                // Add the event listener
+                                button.addEventListener('click', button._customAccordionHandler);
+                            });
+                        });
+                        
+                        function copyReferralLink(inputId) {
+                            const copyText = document.getElementById(inputId);
+                            if (!copyText) {
+                                console.error('Input element not found for ID: ' + inputId);
+                                return;
+                            }
+
+                            // Use navigator.clipboard like before
+                            navigator.clipboard.writeText(copyText.value)
+                                .then(function() {
+                                    // Copy successful - no message shown (like it was before)
+                                })
+                                .catch(function(err) {
+                                    console.error('Failed to copy: ', err);
+                                    showErrorAlert('Copy failed. Please copy manually.');
+                                });
+                        }
+
+                        function showSuccessAlert(message) {
+                            // Create a temporary success message that's more prominent
+                            const alertDiv = document.createElement('div');
+                            alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                            alertDiv.style.cssText = `
+                                position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translateX(-50%) translateY(-50%);
+                                z-index: 99999;
+                                min-width: 300px;
+                                max-width: 90%;
+                                text-align: center;
+                                box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+                                border-radius: 12px;
+                                margin: 0;
+                                font-size: 16px;
+                                font-weight: 600;
+                                padding: 20px 30px;
+                                background: #10b981 !important;
+                                color: white !important;
+                                border: none !important;
+                            `;
+                            alertDiv.innerHTML = `
+                                <i class="fas fa-check-circle me-2" style="font-size: 18px;"></i>
+                                ${message}
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                            `;
+                            
+                            document.body.appendChild(alertDiv);
+                            
+                            // Auto remove after 5 seconds (longer to override native message)
+                            setTimeout(() => {
+                                if (alertDiv.parentNode) {
+                                    alertDiv.remove();
+                                }
+                            }, 5000);
+                        }
+
+                        function showErrorAlert(message) {
+                            // Create a temporary error message that appears at the top
+                            const alertDiv = document.createElement('div');
+                            alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                            alertDiv.style.cssText = `
+                                position: fixed;
+                                top: 20px;
+                                left: 50%;
+                                transform: translateX(-50%);
+                                z-index: 9999;
+                                min-width: 300px;
+                                text-align: center;
+                                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                                border-radius: 8px;
+                                margin: 0;
+                            `;
+                            alertDiv.innerHTML = `
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                ${message}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            `;
+                            
+                            document.body.appendChild(alertDiv);
+                            
+                            // Auto remove after 3 seconds
+                            setTimeout(() => {
+                                if (alertDiv.parentNode) {
+                                    alertDiv.remove();
+                                }
+                            }, 3000);
+                        }
+                        </script>
+
+                        <!-- Profile Details Card -->
+                        <div class="profile-card">
+                            <h3 class="card-header-title">Profile Details</h3>
+                            <p class="card-header-subtitle">Sales performance revenue based by country</p>
+                            <div class="table-responsive">
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="detail-label" style="font-weight: 500; color: #334155;">Username</td>
+                                            <td class="detail-value text-end" style="font-weight: 600; color: var(--primary-color);">Admin1</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="detail-label" style="font-weight: 500; color: #334155;">Active Referrals</td>
+                                            <td class="detail-value text-end" style="font-weight: 600; color: var(--primary-color);">3</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="detail-label" style="font-weight: 500; color: #334155;">Mobile</td>
+                                            <td class="detail-value text-end" style="font-weight: 600; color: var(--primary-color);">+254707216293</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="detail-label" style="font-weight: 500; color: #334155;">Email</td>
+                                            <td class="detail-value text-end" style="font-weight: 600; color: var(--primary-color);">mentorelzado@gmail.com</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        
+                        <!-- Timetable Section (well-styled, white background, black text, bordered) -->
+                        <div class="rounded p-4 mb-4" style="background: #fff; color: #222; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                            <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">TIMETABLE</div>
+                            <div style="font-size: 0.95rem; color: #444; margin-bottom: 1rem;">This is your most recent earnings for today's date.</div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="background: #fff; color: #222;">
+                                    <thead class="table-light">
+                                        <tr style="font-weight: bold;">
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Day 1</th>
+                                            <th>Day 2</th>
+                                            <th>Day 3</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr><td>1</td><td>Youtube</td><td>Saturday</td><td>Sunday</td><td>-</td></tr>
+                                        <tr><td>2</td><td>Tiktok</td><td>Tuesday</td><td>Wednesday</td><td>Tuesday</td></tr>
+                                        <tr><td>3</td><td>Trivia</td><td>Monday</td><td>Wednesday</td><td>Friday</td></tr>
+                                        <tr><td>4</td><td>Ads</td><td>Monday</td><td>Thursday</td><td>Friday</td></tr>
+                                        <tr><td>5</td><td>Article Writting</td><td>Monday</td><td>Friday</td><td>-</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Today's Activity Table (now rendered by JS using user's local time) -->
+                        <div id="todays-activity"><div class="activity-table-container mt-3 rounded p-3" style="background: #fff; color: #222; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;"><div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem;">Today's Activity</div><table class="table table-bordered activity-table" style="background: #fff; color: #222;"><thead class="table-light"><tr style="font-weight: bold;"><th>Task</th><th>Description</th><th>Action</th></tr></thead><tbody><tr>
+                                    <td><i class="fas fa-bullhorn"></i> Ads</td>
+                                    <td>View ads and increase your balance effortlessly! 📢💸<br><span style="color:#06b6d4;font-size:0.95rem;font-weight:500;">Easy money, just watch ads!</span></td>
+                                    <td><a href="ads-earnings.php" class="btn btn-success btn-sm">View Ads</a></td>
+                                </tr></tbody></table></div></div>
+                        <!--
+                                <div class="activity-table-container mt-3 rounded p-3" style="background: #fff; color: #222; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">
+                            <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem;">Today's Activity</div>
+                            <table class="table table-bordered activity-table" style="background: #fff; color: #222;">
+                                <thead class="table-light">
+                                    <tr style="font-weight: bold;">
+                                        <th>Task</th>
+                                        <th>Description</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                                    <tr>
+                                        <td></td>
+                                        <td><br><span style="color:#06b6d4;font-size:0.95rem;font-weight:500;"></span></td>
+                                        <td></td>
+                                    </tr>
+                                                </tbody>
+                            </table>
+                        </div>
+                        <style>
+                            .activity-table-container .activity-table th, .activity-table-container .activity-table td {
+                                vertical-align: middle;
+                                text-align: left;
+                            }
+                            .activity-table-container .btn-sm {
+                                font-size: 0.85rem;
+                                padding: 4px 12px;
+                                border-radius: 6px;
+                            }
+                            .activity-table-container .btn-dark { background: #000; color: #fff; border: none; }
+                            .activity-table-container .btn-danger { background: #ef4444; color: #fff; border: none; }
+                            .activity-table-container .btn-primary { background: #2563eb; color: #fff; border: none; }
+                            .activity-table-container .btn-success { background: #22c55e; color: #fff; border: none; }
+                            .activity-table-container .btn-info { background: #06b6d4; color: #fff; border: none; }
+                            .activity-table-container .btn-sm:hover { opacity: 0.85; }
+                        </style>
+                                -->
+                    </main>
+
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+        <script>
+        // ===== SIDEBAR TOGGLE =====
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('active');
+            }
+        }
+
+        // ===== AVATAR DROPDOWN FUNCTIONALITY =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const avatarBtn = document.getElementById('avatarDropdownBtn');
+            const dropdownMenu = document.getElementById('userDropdownMenu');
+            
+            if (avatarBtn && dropdownMenu) {
+                // Toggle dropdown on avatar click
+                avatarBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    console.log('Avatar clicked!'); // Debug log
+                    
+                    // Toggle the dropdown
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                    }
+                });
+                
+                // Prevent dropdown from closing when clicking inside it
+                dropdownMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            } else {
+                console.error('Avatar dropdown elements not found!');
+            }
+        });
+
+
+
+        // ===== MOBILE RESPONSIVENESS =====
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const mobileHeader = document.querySelector('.mobile-header');
+            const avatarDropdown = document.querySelector('.avatar-dropdown');
+            
+            // Close sidebar when clicking outside on mobile (but not when clicking avatar dropdown)
+            if (window.innerWidth <= 768 && sidebar && sidebar.classList.contains('active')) {
+                if (!sidebar.contains(e.target) && 
+                    !mobileHeader.contains(e.target) && 
+                    !avatarDropdown.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+
+        // ===== AVATAR STYLE =====
+        const avatarStyle = document.createElement('style');
+        avatarStyle.textContent = `
+            .avatar-sm {
+                width: 40px;
+                height: 40px;
+                font-size: 14px;
+                font-weight: 600;
+            }
+            .empty-state {
+                padding: 2rem;
+            }
+        `;
+        document.head.appendChild(avatarStyle);
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart.js Welcome Banner Chart - UPDATED TO PIE CHART
+            const ctx = document.getElementById('welcomeChart');
+            const chartData = {"expenses":500,"withdrawals":0,"balance":1790,"total_earnings":1954,"affiliate_earnings":1200};
+            const currencySymbol = "KSh";
+
+            if (ctx && typeof Chart !== 'undefined' && chartData) {
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Expenses', 'Withdrawn', 'Balance', 'Total Earnings', 'Affiliate Earnings'],
+                        datasets: [{
+                            label: 'Amount',
+                            data: [chartData.expenses, chartData.withdrawals, chartData.balance, chartData.total_earnings, chartData.affiliate_earnings],
+                            backgroundColor: [
+                                '#a855f7', // Expenses - Purple
+                                '#f97316', // Withdrawn - Orange  
+                                '#22c55e',  // Balance - Green
+                                '#ef4444', // Total Earnings - Red
+                                '#facc15'  // Affiliate Earnings - Yellow
+                            ],
+                            borderColor: '#fff', // White border between segments
+                            borderWidth: 2,
+                            hoverOffset: 4 // Adds hover effect
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { 
+                                display: false // Remove legend to save space
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                titleColor: '#fff',
+                                bodyColor: '#fff',
+                                borderColor: 'rgba(255, 255, 255, 0.2)',
+                                borderWidth: 1,
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) { label += ': '; }
+                                        if (context.parsed !== null) {
+                                            label += currencySymbol + ' ' + new Intl.NumberFormat('en-US').format(context.parsed);
+                                            // Add percentage
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                                            label += ' (' + percentage + '%)';
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        },
+                        // Remove layout padding to maximize chart size
+                        layout: {
+                            padding: 0
+                        },
+                        animation: {
+                            animateRotate: true,
+                            animateScale: true
+                        }
+                    }
+                });
+            }
+
+            // Auto-hide mobile menu when screen size changes
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    const sidebar = document.getElementById('sidebar');
+                    if (sidebar) {
+                        sidebar.classList.remove('active');
+                    }
+                }
+            });
+            
+            // Initialize tooltips if Bootstrap is available
+            if (typeof bootstrap !== 'undefined') {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            }
+        });
+
+        // Force remove dark-theme class if present (prevents login/register dark mode from leaking)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.remove('dark-theme');
+        });
+
+        // ===== RENDER TODAY'S ACTIVITY BASED ON USER LOCAL TIME =====
+        const timetable = [
+            {
+                name: "Trivia",
+                days: ["Monday"],
+                icon: '<i class="fas fa-list-ul"></i>',
+                desc: "Answer fun trivia questions and win rewards! 🧠✨",
+                action: '<a href="trivia_earnings.php" class="btn btn-primary btn-sm">Check Trivia</a>',
+                motivation: "Sharpen your mind and earn!"
+            },
+            {
+                name: "Tiktok",
+                days: ["Tuesday"],
+                icon: '<i class="fab fa-tiktok"></i>',
+                desc: "Watch today's motivational TikTok videos and earn🤑🎊",
+                action: '<a href="tiktok_earnings.php" class="btn btn-dark btn-sm">Go to TikTok</a>',
+                motivation: "Don't miss your TikTok earnings!"
+            },
+            {
+                name: "Ads",
+                days: ["Wednesday"],
+                icon: '<i class="fas fa-bullhorn"></i>',
+                desc: "View ads and increase your balance effortlessly! 📢💸",
+                action: '<a href="ads-earnings.php" class="btn btn-success btn-sm">View Ads</a>',
+                motivation: "Easy money, just watch ads!"
+            },
+            {
+                name: "Article Writing",
+                days: ["Thursday"],
+                icon: '<i class="fas fa-edit"></i>',
+                desc: "Write articles and get paid for your creativity! ✍️💰",
+                action: '<a href="post_article.php" class="btn btn-info btn-sm">Write Article</a>',
+                motivation: "Create and get rewarded!"
+            },
+            {
+                name: "Trivia",
+                days: ["Friday"],
+                icon: '<i class="fas fa-list-ul"></i>',
+                desc: "Answer fun trivia questions and win rewards! 🧠✨",
+                action: '<a href="trivia_earnings.php" class="btn btn-primary btn-sm">Check Trivia</a>',
+                motivation: "Sharpen your mind and earn!"
+            },
+            {
+                name: "Youtube",
+                days: ["Saturday"],
+                icon: '<i class="fab fa-youtube"></i>',
+                desc: "Watch trending YouTube videos and boost your earnings! 🚀",
+                action: '<a href="youtube_earnings.php" class="btn btn-danger btn-sm">Go to YouTube</a>',
+                motivation: "Watch and earn today! 🎉"
+            },
+            {
+                name: "Youtube",
+                days: ["Sunday"],
+                icon: '<i class="fab fa-youtube"></i>',
+                desc: "Watch trending YouTube videos and boost your earnings! 🚀",
+                action: '<a href="youtube_earnings.php" class="btn btn-danger btn-sm">Go to YouTube</a>',
+                motivation: "Watch and earn today! 🎉"
+            },
+        ];
+        function getTodayName() {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const now = new Date();
+            return days[now.getDay()];
+        }
+        function renderTodaysActivity() {
+            const today = getTodayName();
+            const todayTasks = timetable.filter(task => task.days.includes(today));
+            if (todayTasks.length === 0) {
+                document.getElementById('todays-activity').innerHTML = '';
+                return;
+            }
+            let html = '<div class="activity-table-container mt-3 rounded p-3" style="background: #fff; color: #222; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #e5e7eb;">';
+            html += '<div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem;">Today\'s Activity</div>';
+            html += '<table class="table table-bordered activity-table" style="background: #fff; color: #222;"><thead class="table-light"><tr style="font-weight: bold;"><th>Task</th><th>Description</th><th>Action</th></tr></thead><tbody>';
+            todayTasks.forEach(task => {
+                html += `<tr>
+                    <td>${task.icon} ${task.name}</td>
+                    <td>${task.desc}<br><span style=\"color:#06b6d4;font-size:0.95rem;font-weight:500;\">${task.motivation}</span></td>
+                    <td>${task.action}</td>
+                </tr>`;
+            });
+            html += '</tbody></table></div>';
+            document.getElementById('todays-activity').innerHTML = html;
+        }
+        document.addEventListener('DOMContentLoaded', renderTodaysActivity);
+    </script>
+
+ <!-- End Main Content Container -->
+
+<!-- Footer -->
+<footer id="footerSection" class="site-footer text-center">
+<div class="footer-container">
+    Copyright © <strong>LIN-TECH</strong>. Designed with <span style="color:#e11d48;">❤️</span> by <a href="#" style="color:#2563eb; text-decoration:underline;"><strong>LIN-TECH</strong></a> All rights reserved
+</div>
+</footer>
+<style>
+.site-footer {
+background: #f8fafc;
+color: #64748b;
+border-top: 1px solid #e5e7eb;
+font-size: 0.85em;
+width: 100%;
+position: relative;
+left: 0; right: 0;
+bottom: 0;
+margin-top: auto;
+padding: 0;
+}
+.footer-container {
+max-width: 700px;
+margin: 0 auto;
+padding: 1rem 16px;
+text-align: center;
+line-height: 1.7;
+word-break: break-word;
+}
+html, body {
+height: 100%;
+}
+body {
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+.main-content {
+flex: 1 0 auto !important;
+display: flex;
+flex-direction: column;
+}
+.hide-until-loaded {
+    display: none !important;
+}
+</style>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- jQuery (if needed) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Custom JS -->
+<script src="/assets/js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.classList.remove('dark-theme');
+
+    // Show the footer content
+    var footer = document.getElementById('footerSection');
+    if (footer) {
+        footer.classList.remove('hide-until-loaded');
+        console.log('Footer shown successfully');
+    } else {
+        console.log('Footer element not found');
+    }
+});
+
+// If you have a header with id="headerSection", keep this code
+window.addEventListener('DOMContentLoaded', function() {
+  var header = document.getElementById('headerSection');
+  if (header) header.classList.remove('hide-until-loaded');
+});
+</script>
+
+
+
+
+</body></html>
